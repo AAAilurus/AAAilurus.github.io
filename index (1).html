@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Basanta Adhikari — Electrical Engineering & Autonomous Control</title>
+<meta name="description" content="Basanta Adhikari — junior in Electrical Engineering at UT Arlington, working on autonomous control at the Autonomous Control Lab.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Space+Grotesk:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TOKENS
+   ============================================================ */
+:root{
+  --cream:#FAF6F0;
+  --lilac-50:#F4EFFC;
+  --lilac-100:#EAE1F9;
+  --lilac-200:#D8C8F2;
+  --lilac-400:#A98BE0;
+  --lilac-600:#7A56C4;
+  --lilac-800:#4E3287;
+  --ink:#2C2440;
+  --muted:#6F6684;
+  --white:#FFFFFF;
+  --line:#E4DCEF;
+  --glow:rgba(169,139,224,.28);
+  --fs-display:clamp(2.8rem,6vw,4.8rem);
+  --fs-h2:clamp(1.9rem,3.6vw,2.9rem);
+  --maxw:1180px;
+  --ease:cubic-bezier(.22,.75,.28,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{
+  background:var(--cream);color:var(--ink);
+  font-family:'Space Grotesk',system-ui,sans-serif;
+  font-weight:300;line-height:1.72;overflow-x:hidden;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:-1;pointer-events:none;
+  background:
+    radial-gradient(900px 620px at 88% 6%, var(--lilac-100) 0%, transparent 62%),
+    radial-gradient(700px 500px at 2% 92%, #F7EEF6 0%, transparent 60%);
+}
+a{color:inherit}
+::selection{background:var(--lilac-200);color:var(--lilac-800)}
+:focus-visible{outline:2px solid var(--lilac-600);outline-offset:3px;border-radius:3px}
+
+/* ============================================================ NAV ============================================================ */
+header{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:60;
+  background:rgba(250,246,240,.82);backdrop-filter:blur(14px) saturate(1.3);
+  border-bottom:1px solid var(--line);
+}
+.nav{max-width:var(--maxw);margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:1rem;padding:.95rem 1.6rem}
+.brand{display:flex;align-items:center;gap:.65rem;text-decoration:none;font-weight:500;font-size:.98rem;letter-spacing:-.01em}
+.brand-mark{width:30px;height:30px;border-radius:9px;flex:none;background:linear-gradient(140deg,var(--lilac-400),var(--lilac-600));display:grid;place-items:center;box-shadow:0 5px 16px var(--glow)}
+.brand-mark svg{width:16px;height:16px;color:#fff}
+.menu{display:flex;gap:.3rem;list-style:none}
+.menu button{font:inherit;font-size:.86rem;color:var(--muted);background:none;border:0;cursor:pointer;padding:.44rem .85rem;border-radius:999px;transition:color .22s,background .22s}
+.menu button:hover{color:var(--lilac-800);background:var(--lilac-50)}
+.menu button[aria-current="true"]{color:var(--lilac-800);background:var(--lilac-100);font-weight:500}
+.nav-toggle{display:none;background:none;border:1px solid var(--line);border-radius:9px;padding:.4rem .6rem;cursor:pointer;color:var(--ink)}
+
+/* ============================================================ VIEWS ============================================================ */
+main{max-width:var(--maxw);margin:0 auto;padding:0 1.6rem}
+.view{display:none}
+.view.active{display:block;animation:viewIn .5s var(--ease) both}
+@keyframes viewIn{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.view.active .stagger>*{animation:riseIn .62s var(--ease) both}
+.view.active .stagger>*:nth-child(1){animation-delay:.04s}
+.view.active .stagger>*:nth-child(2){animation-delay:.11s}
+.view.active .stagger>*:nth-child(3){animation-delay:.18s}
+.view.active .stagger>*:nth-child(4){animation-delay:.25s}
+.view.active .stagger>*:nth-child(5){animation-delay:.32s}
+.view.active .stagger>*:nth-child(6){animation-delay:.39s}
+@keyframes riseIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+
+/* ============================================================ TYPE ============================================================ */
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:400;letter-spacing:-.018em;line-height:1.1}
+h1{font-size:var(--fs-display);font-weight:500}
+h2{font-size:var(--fs-h2);margin-bottom:.5rem}
+h3{font-size:1.12rem;font-weight:500;line-height:1.35}
+.eyebrow{font-size:.76rem;letter-spacing:.09em;color:var(--lilac-600);display:inline-flex;align-items:center;gap:.6rem;margin-bottom:1rem}
+.eyebrow::before{content:'';width:26px;height:1px;background:var(--lilac-400)}
+.lede{font-size:1.06rem;color:var(--muted);max-width:60ch}
+
+/* ============================================================ HERO ============================================================ */
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:3.4rem;align-items:center;min-height:calc(100vh - 170px);padding:3rem 0 3.4rem}
+.status{display:inline-flex;align-items:center;gap:.55rem;font-size:.78rem;color:var(--lilac-800);background:var(--lilac-50);border:1px solid var(--lilac-100);padding:.3rem .78rem;border-radius:999px;margin-bottom:1.3rem}
+.dot{width:7px;height:7px;border-radius:50%;background:var(--lilac-600);animation:breathe 2.4s infinite}
+@keyframes breathe{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.35;transform:scale(.8)}}
+.hero h1 em{font-style:italic;color:var(--lilac-600)}
+.hero p{font-size:1.07rem;color:var(--muted);max-width:44ch;margin:1.1rem 0 2rem}
+.cta-row{display:flex;gap:.7rem;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:.5rem;padding:.72rem 1.4rem;border-radius:999px;font-size:.88rem;font-weight:500;text-decoration:none;cursor:pointer;border:1px solid transparent;font-family:inherit;transition:transform .2s var(--ease),box-shadow .25s,background .25s,color .25s}
+.btn-solid{background:var(--lilac-600);color:#fff;box-shadow:0 8px 22px var(--glow)}
+.btn-solid:hover{transform:translateY(-2px);box-shadow:0 12px 28px var(--glow)}
+.btn-line{background:var(--white);border-color:var(--line);color:var(--ink)}
+.btn-line:hover{border-color:var(--lilac-400);color:var(--lilac-800);transform:translateY(-2px)}
+
+/* robot stage */
+.stage-wrap{animation:floatIn 1.1s var(--ease) both .2s}
+@keyframes floatIn{from{opacity:0;transform:translateY(26px) scale(.97)}to{opacity:1;transform:none}}
+.stage{position:relative;width:100%;aspect-ratio:1/.92;background:linear-gradient(165deg,var(--white),var(--lilac-50));border:1px solid var(--line);border-radius:26px;overflow:hidden;box-shadow:0 26px 60px -28px rgba(78,50,135,.35)}
+.stage canvas{display:block;width:100%;height:100%}
+.stage-name{position:absolute;left:1.15rem;top:1.05rem;pointer-events:none}
+.stage-name b{display:block;font-family:'Fraunces',serif;font-weight:500;font-size:1rem;color:var(--lilac-800);line-height:1.2}
+.stage-name span{font-size:.74rem;color:var(--muted)}
+.switcher{display:flex;gap:.4rem;margin-top:.85rem;flex-wrap:wrap}
+.switcher button{font:inherit;font-size:.78rem;color:var(--muted);background:var(--white);border:1px solid var(--line);border-radius:999px;padding:.34rem .8rem;cursor:pointer;transition:all .22s var(--ease)}
+.switcher button:hover{border-color:var(--lilac-200);color:var(--lilac-800)}
+.switcher button[aria-pressed="true"]{background:var(--lilac-100);border-color:var(--lilac-200);color:var(--lilac-800);font-weight:500}
+
+/* ============================================================ PAGES ============================================================ */
+.page{padding:3.4rem 0 4.5rem}
+.page-head{max-width:62ch;margin-bottom:2.6rem}
+.card{background:var(--white);border:1px solid var(--line);border-radius:18px;padding:1.6rem 1.7rem;transition:transform .28s var(--ease),box-shadow .28s,border-color .28s}
+.card:hover{transform:translateY(-4px);border-color:var(--lilac-200);box-shadow:0 20px 40px -26px rgba(78,50,135,.4)}
+.about-grid{display:grid;grid-template-columns:1.25fr 1fr;gap:2.4rem;align-items:start}
+.prose p{color:var(--muted);margin-bottom:1rem;max-width:58ch}
+.prose strong{color:var(--ink);font-weight:500}
+.facts{display:grid;gap:.9rem}
+.fact{padding:.95rem 1.1rem;background:var(--white);border:1px solid var(--line);border-radius:14px}
+.fact-k{font-size:.72rem;color:var(--lilac-600);letter-spacing:.06em;margin-bottom:.1rem}
+.fact-v{font-size:.9rem;color:var(--ink)}
+.skills{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:1.1rem;margin-top:2.6rem}
+.skill h4{font-size:.76rem;letter-spacing:.07em;color:var(--lilac-600);font-weight:500;margin-bottom:.7rem}
+.chips{display:flex;flex-wrap:wrap;gap:.4rem}
+.chip{font-size:.78rem;padding:.26rem .7rem;border-radius:999px;background:var(--lilac-50);color:var(--lilac-800);border:1px solid var(--lilac-100)}
+.projects{display:grid;gap:1.2rem}
+.project{display:grid;grid-template-columns:auto 1fr auto;gap:1.2rem;align-items:start;text-decoration:none}
+.p-num{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--lilac-200);line-height:1;padding-top:.2rem}
+.project p{font-size:.92rem;color:var(--muted);margin:.45rem 0 .9rem;max-width:62ch}
+.p-go{color:var(--lilac-600);font-size:1.1rem;transition:transform .25s var(--ease)}
+.project:hover .p-go{transform:translate(3px,-3px)}
+.featured{border-color:var(--lilac-200);background:linear-gradient(150deg,var(--white),var(--lilac-50))}
+.badge{display:inline-block;font-size:.68rem;letter-spacing:.06em;color:var(--lilac-800);background:var(--lilac-100);padding:.16rem .6rem;border-radius:999px;margin-bottom:.5rem}
+.tl{display:grid;margin-top:2.8rem}
+.tl-row{display:grid;grid-template-columns:150px 1fr;gap:0 1.8rem;padding-bottom:2rem}
+.tl-row:last-child{padding-bottom:0}
+.tl-when{font-size:.8rem;color:var(--muted);text-align:right;padding-top:.15rem}
+.tl-body{position:relative;padding-left:1.6rem;border-left:1px solid var(--line)}
+.tl-row:last-child .tl-body{border-left-color:transparent}
+.tl-body::before{content:'';position:absolute;left:-5px;top:.55rem;width:9px;height:9px;border-radius:50%;background:var(--lilac-400);box-shadow:0 0 0 4px var(--cream)}
+.tl-org{font-size:.85rem;color:var(--lilac-600);margin-bottom:.3rem}
+.tl-body p{font-size:.9rem;color:var(--muted);max-width:60ch}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:2.4rem;align-items:start}
+.links{display:grid;gap:.75rem}
+.link{display:flex;align-items:center;gap:.95rem;text-decoration:none;padding:.95rem 1.2rem;background:var(--white);border:1px solid var(--line);border-radius:14px;transition:transform .24s var(--ease),border-color .24s,box-shadow .24s}
+.link:hover{transform:translateX(4px);border-color:var(--lilac-200);box-shadow:0 14px 30px -24px rgba(78,50,135,.5)}
+.link-ic{width:36px;height:36px;flex:none;border-radius:11px;background:var(--lilac-50);display:grid;place-items:center;color:var(--lilac-600)}
+.link-ic svg{width:17px;height:17px}
+.link-k{font-size:.74rem;color:var(--muted)}
+.link-v{font-size:.9rem;color:var(--ink)}
+footer{border-top:1px solid var(--line);margin-top:2rem}
+.foot{max-width:var(--maxw);margin:0 auto;padding:1.5rem 1.6rem;display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap;font-size:.78rem;color:var(--muted)}
+
+/* ============================================================ RESPONSIVE ============================================================ */
+@media(max-width:900px){
+  .hero{grid-template-columns:1fr;gap:2.4rem;min-height:auto;padding-top:2.4rem}
+  .stage-wrap{order:-1;max-width:430px;width:100%}
+  .about-grid,.contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:640px){
+  .nav{padding:.8rem 1.1rem}
+  main{padding:0 1.1rem}
+  .menu{position:absolute;top:100%;right:1.1rem;left:1.1rem;flex-direction:column;gap:.1rem;background:var(--white);border:1px solid var(--line);border-radius:14px;padding:.5rem;box-shadow:0 18px 40px -24px rgba(78,50,135,.5);display:none}
+  .menu.open{display:flex}
+  .menu button{text-align:left;width:100%}
+  .nav-toggle{display:block}
+  .tl-row{grid-template-columns:1fr;gap:.25rem}
+  .tl-when{text-align:left}
+  .tl-body{padding-left:0;border-left:0}
+  .tl-body::before{display:none}
+  .project{grid-template-columns:1fr auto}
+  .p-num{display:none}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms!important;transition-duration:.001ms!important}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <nav class="nav">
+    <a class="brand" href="#home" data-go="home">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="3.1" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M32.5 4C29.5 18 22 32 15.5 44.5"/>
+          <path d="M12 15.5L27 13.6c5.5 1 5.6 8 -1.8 10"/>
+          <path d="M25.2 23.6c9.4.5 9.8 9.5.8 10.6l-7.6.2"/>
+          <path d="M5 36.4L43 36.4"/>
+        </svg>
+      </span>
+      Basanta Adhikari
+    </a>
+    <button class="nav-toggle" aria-label="Menu" aria-expanded="false">☰</button>
+    <ul class="menu">
+      <li><button data-go="home" aria-current="true">Home</button></li>
+      <li><button data-go="about">About</button></li>
+      <li><button data-go="work">Projects</button></li>
+      <li><button data-go="contact">Contact</button></li>
+    </ul>
+  </nav>
+</header>
+
+<main>
+
+<!-- ══════════ HOME ══════════ -->
+<section class="view active" id="home">
+  <div class="hero">
+    <div class="stagger">
+      <div class="status"><span class="dot"></span>Open to research &amp; internships</div>
+      <h1>Making machines<br>hold their <em>line</em>.</h1>
+      <p>I'm a junior in Electrical Engineering at UT Arlington, working on control systems at the Autonomous Control Lab — quadrotors, manipulators, and ground robots, in simulation and on real hardware.</p>
+      <div class="cta-row">
+        <button class="btn btn-solid" data-go="work">See my work</button>
+        <button class="btn btn-line" data-go="about">About me</button>
+      </div>
+    </div>
+
+    <div class="stage-wrap">
+      <div class="stage">
+        <canvas id="stage"></canvas>
+        <div class="stage-name">
+          <b id="rName">Crazyflie 2.1</b>
+          <span id="rDesc">Quadrotor position control</span>
+        </div>
+      </div>
+      <div class="switcher" id="switcher">
+        <button data-r="0" aria-pressed="true">Crazyflie</button>
+        <button data-r="1" aria-pressed="false">FR3</button>
+        <button data-r="2" aria-pressed="false">SO-100</button>
+        <button data-r="3" aria-pressed="false">LIMO</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ ABOUT ══════════ -->
+<section class="view page" id="about">
+  <div class="page-head stagger">
+    <div class="eyebrow">About</div>
+    <h2>Electrical engineering, pointed at control.</h2>
+  </div>
+
+  <div class="about-grid stagger">
+    <div class="prose">
+      <p>I'm <strong>Basanta Adhikari</strong>, a junior studying Electrical Engineering at the <strong>University of Texas at Arlington</strong>, and a researcher at the <strong>Autonomous Control Lab</strong>.</p>
+      <p>I'm working on <strong>cascaded LQR position control</strong> for the Crazyflie 2.1 quadrotor — an outer loop that decides where the drone should go, feeding an inner loop that decides how to tilt to get there. Everything runs first in <strong>Gazebo</strong>, then on <strong>real hardware</strong> tracked by Vicon motion capture.</p>
+      <p>Alongside that I'm working with the lab's other platforms: optimal control on the <strong>Franka FR3</strong> manipulator, learning-based manipulation on the <strong>SO-100</strong> arm, and autonomous navigation on <strong>LIMO</strong> ground robots.</p>
+      <p>The gap between simulation and hardware is the interesting part. Simulation is honest about your math; hardware is honest about everything else. Most of what I've learned lives in that gap.</p>
+    </div>
+
+    <div class="facts">
+      <div class="fact"><div class="fact-k">STUDYING</div><div class="fact-v">B.S. Electrical Engineering</div></div>
+      <div class="fact"><div class="fact-k">UNIVERSITY</div><div class="fact-v">UT Arlington · Junior</div></div>
+      <div class="fact"><div class="fact-k">RESEARCH</div><div class="fact-v">Autonomous Control Lab</div></div>
+      <div class="fact"><div class="fact-k">PLATFORMS</div><div class="fact-v">Crazyflie · FR3 · SO-100 · LIMO</div></div>
+    </div>
+  </div>
+
+  <div class="skills stagger">
+    <div class="skill">
+      <h4>Control &amp; robotics</h4>
+      <div class="chips"><span class="chip">LQR</span><span class="chip">PID</span><span class="chip">State-space</span><span class="chip">SPSA</span><span class="chip">Inverse RL</span><span class="chip">ROS 2</span></div>
+    </div>
+    <div class="skill">
+      <h4>Platforms</h4>
+      <div class="chips"><span class="chip">Crazyflie 2.1</span><span class="chip">Franka FR3</span><span class="chip">SO-100</span><span class="chip">LIMO</span><span class="chip">Vicon mocap</span></div>
+    </div>
+    <div class="skill">
+      <h4>Languages</h4>
+      <div class="chips"><span class="chip">Python</span><span class="chip">C / C++</span><span class="chip">MATLAB</span><span class="chip">TypeScript</span></div>
+    </div>
+    <div class="skill">
+      <h4>Tools &amp; ML</h4>
+      <div class="chips"><span class="chip">Gazebo</span><span class="chip">PyTorch</span><span class="chip">OpenCV</span><span class="chip">MediaPipe</span><span class="chip">n8n</span></div>
+    </div>
+  </div>
+
+  <div class="tl stagger">
+    <div class="tl-row">
+      <div class="tl-when">2024 — present</div>
+      <div class="tl-body">
+        <h3>Undergraduate Researcher</h3>
+        <div class="tl-org">Autonomous Control Lab · UT Arlington</div>
+        <p>Working on cascaded LQR position control for the Crazyflie 2.1, developed in Gazebo and flown on real hardware with Lighthouse and Vicon tracking. Also working across the lab's manipulator and ground-robot platforms — FR3, SO-100, and LIMO.</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-when">2023 — present</div>
+      <div class="tl-body">
+        <h3>Independent projects</h3>
+        <div class="tl-org">Self-directed</div>
+        <p>Computer-vision robotics, AI automation workflows, and full-stack web applications — built to learn whatever the lab wasn't teaching me yet.</p>
+      </div>
+    </div>
+    <div class="tl-row">
+      <div class="tl-when">Expected 2027</div>
+      <div class="tl-body">
+        <h3>B.S. Electrical Engineering</h3>
+        <div class="tl-org">University of Texas at Arlington</div>
+        <p>Coursework in control systems, signals and systems, embedded design, electronics, and electromagnetics.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PROJECTS ══════════ -->
+<section class="view page" id="work">
+  <div class="page-head stagger">
+    <div class="eyebrow">Projects</div>
+    <h2>Things I've built and flown.</h2>
+    <p class="lede">Research work, robotics, and software — each one linked to its code.</p>
+  </div>
+
+  <div class="projects stagger">
+
+    <a class="card project featured" href="https://github.com/AAAilurus" target="_blank" rel="noopener">
+      <div class="p-num">01</div>
+      <div>
+        <span class="badge">Active research</span>
+        <h3>Cascaded LQR position control — Crazyflie 2.1</h3>
+        <p>An outer-loop position controller designed in state-space and layered over the Crazyflie's attitude loop. Developed in Gazebo, then flown on real hardware with Lighthouse and later Vicon motion capture. Controller weights are tuned using SPSA and inverse reinforcement learning rather than by hand.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">ROS 2</span><span class="chip">Gazebo</span><span class="chip">LQR</span><span class="chip">Vicon</span></div>
+      </div>
+      <div class="p-go">↗</div>
+    </a>
+
+    <a class="card project" href="https://github.com/AAAilurus" target="_blank" rel="noopener">
+      <div class="p-num">02</div>
+      <div>
+        <span class="badge">Lab research</span>
+        <h3>LQR control of the Franka FR3 manipulator</h3>
+        <p>Optimal control applied to a 7-DOF research arm. Linearizing the manipulator dynamics about an operating point and designing an LQR regulator for joint-space tracking, validated in simulation before running on the physical FR3.</p>
+        <div class="chips"><span class="chip">Franka FR3</span><span class="chip">LQR</span><span class="chip">ROS 2</span><span class="chip">Python</span><span class="chip">Manipulator dynamics</span></div>
+      </div>
+      <div class="p-go">↗</div>
+    </a>
+
+    <a class="card project" href="https://github.com/AAAilurus" target="_blank" rel="noopener">
+      <div class="p-num">03</div>
+      <div>
+        <span class="badge">Lab research</span>
+        <h3>SO-100 manipulation arm</h3>
+        <p>Working with the low-cost SO-100 arm as an accessible platform for manipulation research — teleoperation, demonstration collection, and policy training on a robot that costs a fraction of a commercial manipulator.</p>
+        <div class="chips"><span class="chip">SO-100</span><span class="chip">Python</span><span class="chip">Teleoperation</span><span class="chip">Imitation learning</span></div>
+      </div>
+      <div class="p-go">↗</div>
+    </a>
+
+    <a class="card project" href="https://github.com/AAAilurus" target="_blank" rel="noopener">
+      <div class="p-num">04</div>
+      <div>
+        <span class="badge">Lab research</span>
+        <h3>LIMO autonomous ground robots</h3>
+        <p>Navigation and control on LIMO mobile robots — a compact platform with multiple steering modes, LiDAR, and depth sensing, used for path following and multi-robot experiments in the lab.</p>
+        <div class="chips"><span class="chip">LIMO</span><span class="chip">ROS</span><span class="chip">LiDAR</span><span class="chip">Path following</span></div>
+      </div>
+      <div class="p-go">↗</div>
+    </a>
+
+    <a class="card project" href="https://github.com/AAAilurus/Controlling_Robo_Car_with_Hand_Gesture" target="_blank" rel="noopener">
+      <div class="p-num">05</div>
+      <div>
+        <h3>Hand-gesture controlled robot car</h3>
+        <p>A camera watches your hand, MediaPipe extracts the landmarks, and the resulting command rides over Bluetooth from a Raspberry Pi to an Arduino driving the motors. A second version swaps the rule-based classifier for a PyTorch model trained on my own gesture data.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">OpenCV</span><span class="chip">MediaPipe</span><span class="chip">PyTorch</span><span class="chip">Arduino</span></div>
+      </div>
+      <div class="p-go">↗</div>
+    </a>
+
+    <a class="card project" href="https://github.com/AAAilurus/-Personalized-News-Chatbot-via-Email" target="_blank" rel="noopener">
+      <div class="p-num">06</div>
+      <div>
+        <h3>Personalized news chatbot over email</h3>
+        <p>You pick your topics once; it emails you a daily lesson and a news digest built from Reddit and NewsAPI, summarized by Gemini. Orchestrated end to end in n8n with Google Sheets as the subscriber store — no server to babysit.</p>
+        <div class="chips"><span class="chip">n8n</span><span class="chip">Gemini</span><span class="chip">NewsAPI</span><span class="chip">Google Sheets</span></div>
+      </div>
+      <div class="p-go">↗</div>
+    </a>
+
+    <a class="card project" href="https://github.com/AAAilurus/Motion_detector" target="_blank" rel="noopener">
+      <div class="p-num">07</div>
+      <div>
+        <h3>Motion-triggered camera alert</h3>
+        <p>Background subtraction on a live webcam feed; when the frame changes enough to matter, it grabs a still and emails it immediately. Small, dependency-light, and genuinely useful as a cheap room monitor.</p>
+        <div class="chips"><span class="chip">Python</span><span class="chip">OpenCV</span><span class="chip">SMTP</span></div>
+      </div>
+      <div class="p-go">↗</div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ══════════ CONTACT ══════════ -->
+<section class="view page" id="contact">
+  <div class="page-head stagger">
+    <div class="eyebrow">Contact</div>
+    <h2>Let's talk.</h2>
+  </div>
+
+  <div class="contact-grid stagger">
+    <div class="prose">
+      <p>I'm looking for <strong>summer internships and research collaborations</strong> in controls, robotics, and embedded systems.</p>
+      <p>Email is the fastest way to reach me.</p>
+      <a class="btn btn-solid" href="mailto:thebasantaadhikari@gmail.com" style="margin-top:.6rem">Email me</a>
+    </div>
+
+    <div class="links">
+      <a class="link" href="mailto:thebasantaadhikari@gmail.com">
+        <span class="link-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="3"/><path d="M2 7l10 7 10-7"/></svg></span>
+        <span><span class="link-k">Email</span><br><span class="link-v">thebasantaadhikari@gmail.com</span></span>
+      </a>
+      <a class="link" href="https://github.com/AAAilurus" target="_blank" rel="noopener">
+        <span class="link-ic"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg></span>
+        <span><span class="link-k">GitHub</span><br><span class="link-v">github.com/AAAilurus</span></span>
+      </a>
+      <a class="link" href="https://www.linkedin.com/in/basanta-adhikari-eee" target="_blank" rel="noopener">
+        <span class="link-ic"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5a2.5 2.5 0 11-.02 5 2.5 2.5 0 01.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.76-1.95C20.4 8.75 21 11 21 14.2V21h-4v-6c0-1.43-.03-3.27-2-3.27-2 0-2.3 1.56-2.3 3.17V21H9z"/></svg></span>
+        <span><span class="link-k">LinkedIn</span><br><span class="link-v">basanta-adhikari-eee</span></span>
+      </a>
+      <a class="link" href="https://devpost.com/thebasantaadhikari" target="_blank" rel="noopener">
+        <span class="link-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2l9 5v10l-9 5-9-5V7z"/><path d="M8 8h3.5a4 4 0 010 8H8z"/></svg></span>
+        <span><span class="link-k">Devpost</span><br><span class="link-v">thebasantaadhikari</span></span>
+      </a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="foot">
+    <span>Basanta Adhikari · Arlington, Texas</span>
+    <span>Built and maintained by hand</span>
+  </div>
+</footer>
+
+<script>
+/* ---------- view router ---------- */
+var views = document.querySelectorAll('.view');
+var menuBtns = document.querySelectorAll('.menu button');
+var menu = document.querySelector('.menu');
+var navToggle = document.querySelector('.nav-toggle');
+
+function go(id){
+  var found = false;
+  views.forEach(function(v){
+    var on = v.id === id;
+    v.classList.toggle('active', on);
+    if(on) found = true;
+  });
+  if(!found){ document.getElementById('home').classList.add('active'); id = 'home'; }
+  menuBtns.forEach(function(b){ b.setAttribute('aria-current', b.dataset.go === id ? 'true' : 'false'); });
+  if(history.replaceState) history.replaceState(null,'','#'+id); else location.hash = id;
+  window.scrollTo({top:0,behavior:'smooth'});
+  menu.classList.remove('open');
+  navToggle.setAttribute('aria-expanded','false');
+}
+document.addEventListener('click', function(e){
+  var t = e.target.closest('[data-go]');
+  if(t){ e.preventDefault(); go(t.dataset.go); }
+});
+navToggle.addEventListener('click', function(){
+  var open = menu.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+});
+window.addEventListener('hashchange', function(){ go((location.hash || '#home').slice(1)); });
+if(location.hash && location.hash !== '#home') go(location.hash.slice(1));
+
+/* ============================================================
+   ROBOT STAGE — four platforms from the lab, drawn live
+   ============================================================ */
+(function(){
+  var cv = document.getElementById('stage');
+  if(!cv) return;
+  var ctx = cv.getContext('2d');
+  var W=0,H=0,S=0,dpr=Math.min(window.devicePixelRatio||1,2);
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function size(){
+    var r = cv.getBoundingClientRect();
+    W=r.width; H=r.height; S=Math.min(W,H);
+    cv.width=W*dpr; cv.height=H*dpr;
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  size();
+  window.addEventListener('resize', size);
+
+  var PURPLE='#4E3287', MID='#7A56C4', SOFT='#A98BE0';
+
+  /* ---------- shared drawing helpers ---------- */
+  function grid(){
+    ctx.save();
+    ctx.strokeStyle='rgba(169,139,224,.13)'; ctx.lineWidth=1;
+    var step=Math.max(32,S/9);
+    for(var x=step/2;x<W;x+=step){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(var y=step/2;y<H;y+=step){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    ctx.restore();
+  }
+  function ground(y){
+    ctx.save();
+    ctx.strokeStyle='rgba(78,50,135,.22)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(W*0.08,y); ctx.lineTo(W*0.92,y); ctx.stroke();
+    ctx.restore();
+  }
+  function shadow(x,y,rx,ry){
+    ctx.save(); ctx.globalAlpha=.12; ctx.fillStyle=PURPLE;
+    ctx.beginPath(); ctx.ellipse(x,y,rx,ry,0,0,Math.PI*2); ctx.fill(); ctx.restore();
+  }
+  function rrect(x,y,w,h,r){
+    ctx.beginPath();
+    if(ctx.roundRect){ctx.roundRect(x,y,w,h,r);}
+    else{
+      ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);
+      ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();
+    }
+  }
+  function marker(x,y,r){
+    ctx.save();
+    ctx.strokeStyle='rgba(122,86,196,.5)'; ctx.lineWidth=1.4;
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(x-r-5,y);ctx.lineTo(x-r+2,y); ctx.moveTo(x+r-2,y);ctx.lineTo(x+r+5,y);
+    ctx.moveTo(x,y-r-5);ctx.lineTo(x,y-r+2); ctx.moveTo(x,y+r-2);ctx.lineTo(x,y+r+5);
+    ctx.stroke(); ctx.restore();
+  }
+  function trailDraw(pts,width,alpha){
+    for(var i=1;i<pts.length;i++){
+      var a=i/pts.length;
+      ctx.strokeStyle='rgba(169,139,224,'+(a*alpha).toFixed(3)+')';
+      ctx.lineWidth=1+a*width;
+      ctx.beginPath(); ctx.moveTo(pts[i-1][0],pts[i-1][1]); ctx.lineTo(pts[i][0],pts[i][1]); ctx.stroke();
+    }
+  }
+  // two-link inverse kinematics; elbow sign picks the configuration
+  function ik(dx,dy,l1,l2,sign){
+    var d=Math.hypot(dx,dy);
+    d=Math.min(d,(l1+l2)*0.999);
+    d=Math.max(d,Math.abs(l1-l2)*1.001);
+    var a=Math.atan2(dy,dx);
+    var c=Math.acos((d*d+l1*l1-l2*l2)/(2*d*l1));
+    var q1=a+sign*c;
+    var e=Math.acos((l1*l1+l2*l2-d*d)/(2*l1*l2));
+    var q2=sign*(e-Math.PI);
+    return [q1,q2];
+  }
+  function limb(x0,y0,x1,y1,w,fill){
+    ctx.save();
+    ctx.lineCap='round';
+    ctx.strokeStyle=PURPLE; ctx.lineWidth=w+2.6;
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    ctx.strokeStyle=fill; ctx.lineWidth=w;
+    ctx.beginPath(); ctx.moveTo(x0,y0); ctx.lineTo(x1,y1); ctx.stroke();
+    ctx.restore();
+  }
+  function joint(x,y,r){
+    ctx.save();
+    ctx.fillStyle='#fff'; ctx.strokeStyle=PURPLE; ctx.lineWidth=2;
+    ctx.beginPath(); ctx.arc(x,y,r,0,Math.PI*2); ctx.fill(); ctx.stroke();
+    ctx.fillStyle=SOFT;
+    ctx.beginPath(); ctx.arc(x,y,r*0.38,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  /* ---------- 1. Crazyflie 2.1 ---------- */
+  var dx=0,dy=0,dvx=0,dvy=0,tilt=0,dtrail=[];
+  function sceneDrone(t){
+    grid();
+    var cx=W*.5, cy=H*.5, a=S*.27;
+    var tx=cx+a*Math.sin(t*.55), ty=cy+a*.6*Math.sin(t*1.1);
+    var kp=9, kd=4.2, dt=1/60;
+    var ax=kp*(tx-dx)-kd*dvx, ay=kp*(ty-dy)-kd*dvy;
+    dvx+=ax*dt; dvy+=ay*dt; dx+=dvx*dt; dy+=dvy*dt;
+    tilt+=((ax*.0042)-tilt)*.12;
+    dtrail.push([dx,dy]); if(dtrail.length>90) dtrail.shift();
+    marker(tx,ty,9);
+    trailDraw(dtrail,2,.55);
+    var arm=Math.max(16,S*.055);
+    ctx.save(); ctx.translate(dx,dy); ctx.rotate(tilt);
+    ctx.save(); ctx.globalAlpha=.13; ctx.fillStyle=PURPLE;
+    ctx.beginPath(); ctx.ellipse(0,arm*1.5,arm*1.15,arm*.3,0,0,Math.PI*2); ctx.fill(); ctx.restore();
+    ctx.strokeStyle=PURPLE; ctx.lineWidth=2.4; ctx.lineCap='round';
+    ctx.beginPath();
+    ctx.moveTo(-arm,-arm*.55); ctx.lineTo(arm,arm*.55);
+    ctx.moveTo(arm,-arm*.55); ctx.lineTo(-arm,arm*.55);
+    ctx.stroke();
+    ctx.fillStyle=PURPLE; rrect(-arm*.34,-arm*.26,arm*.68,arm*.52,arm*.16); ctx.fill();
+    var pts=[[-arm,-arm*.55],[arm,-arm*.55],[arm,arm*.55],[-arm,arm*.55]];
+    for(var i=0;i<4;i++){
+      var p=pts[i], dir=(i%2===0)?1:-1;
+      ctx.save(); ctx.translate(p[0],p[1]); ctx.rotate(t*14*dir);
+      ctx.strokeStyle='rgba(122,86,196,.55)'; ctx.lineWidth=2;
+      ctx.beginPath(); ctx.arc(0,0,arm*.42,0,Math.PI*1.25); ctx.stroke(); ctx.restore();
+      ctx.fillStyle=SOFT; ctx.beginPath(); ctx.arc(p[0],p[1],2.6,0,Math.PI*2); ctx.fill();
+    }
+    ctx.restore();
+  }
+
+  /* ---------- 2. Franka FR3 — 7-DOF manipulator ---------- */
+  var fr3trail=[];
+  function sceneFR3(t){
+    grid();
+    var baseX=W*.5, baseY=H*.80;
+    ground(baseY+S*.015);
+    var l1=S*.24, l2=S*.21, l3=S*.085;
+    // end-effector sweeps an arc in front of the arm
+    var ph=t*.5;
+    var R=S*.30, cxp=baseX, cyp=baseY-S*.30;
+    var tx=cxp+R*0.72*Math.cos(ph), ty=cyp-R*0.42*Math.sin(ph*1.3)-S*.02;
+    fr3trail.push([tx,ty]); if(fr3trail.length>80) fr3trail.shift();
+    trailDraw(fr3trail,1.6,.5);
+    marker(tx,ty,8);
+    // wrist sits one tool-length above the target (tool points down)
+    var wx=tx, wy=ty-l3;
+    var q=ik(wx-baseX, wy-baseY, l1, l2, -1);
+    var j1x=baseX+l1*Math.cos(q[0]), j1y=baseY+l1*Math.sin(q[0]);
+    var j2x=j1x+l2*Math.cos(q[0]+q[1]), j2y=j1y+l2*Math.sin(q[0]+q[1]);
+    shadow(baseX, baseY+S*.018, S*.085, S*.016);
+    // pedestal
+    ctx.fillStyle='#fff'; ctx.strokeStyle=PURPLE; ctx.lineWidth=2;
+    rrect(baseX-S*.062, baseY-S*.035, S*.124, S*.05, S*.014); ctx.fill(); ctx.stroke();
+    limb(baseX,baseY-S*.02, j1x,j1y, S*.034, '#fff');
+    limb(j1x,j1y, j2x,j2y, S*.028, '#fff');
+    limb(j2x,j2y, tx,ty, S*.02, SOFT);
+    // gripper fingers
+    ctx.save(); ctx.strokeStyle=PURPLE; ctx.lineWidth=2.4; ctx.lineCap='round';
+    var g=S*.022;
+    ctx.beginPath(); ctx.moveTo(tx-g*.8,ty); ctx.lineTo(tx-g*.8,ty+g);
+    ctx.moveTo(tx+g*.8,ty); ctx.lineTo(tx+g*.8,ty+g); ctx.stroke(); ctx.restore();
+    joint(baseX,baseY-S*.02,S*.026);
+    joint(j1x,j1y,S*.023);
+    joint(j2x,j2y,S*.019);
+  }
+
+  /* ---------- 3. SO-100 — low-cost arm doing pick and place ---------- */
+  var so=[];
+  function sceneSO(t){
+    grid();
+    var baseX=W*.5, baseY=H*.78;
+    ground(baseY+S*.02);
+    var l1=S*.19, l2=S*.17, l3=S*.07;
+    var cycle=(t*.42)%1;            // one full pick-and-place per cycle
+    var pickX=baseX-S*.24, placeX=baseX+S*.24, deck=baseY-S*.01;
+    var hi=baseY-S*.30;
+    var tx,ty,grip,holding;
+    if(cycle<.22){ tx=pickX; ty=deck-S*.03+(hi-deck)*(1-cycle/.22)*0; ty=hi+(deck-hi)*(cycle/.22); grip=1; holding=false; }
+    else if(cycle<.32){ tx=pickX; ty=deck; grip=1-(cycle-.22)/.10; holding=false; }
+    else if(cycle<.60){ var k=(cycle-.32)/.28; tx=pickX+(placeX-pickX)*k; ty=deck+(hi-deck)*Math.sin(Math.PI*k); grip=0; holding=true; }
+    else if(cycle<.70){ tx=placeX; ty=deck; grip=(cycle-.60)/.10; holding=true; }
+    else { var k2=(cycle-.70)/.30; tx=placeX+(pickX-placeX)*k2; ty=deck+(hi-deck)*Math.sin(Math.PI*k2); grip=1; holding=false; }
+    // table pads
+    ctx.save(); ctx.fillStyle='rgba(169,139,224,.18)';
+    rrect(pickX-S*.045, deck+S*.012, S*.09, S*.012, 3); ctx.fill();
+    rrect(placeX-S*.045, deck+S*.012, S*.09, S*.012, 3); ctx.fill(); ctx.restore();
+    // the cube, either on a pad or in the gripper
+    var cube=S*.038;
+    var cubeX = holding ? tx : (cycle<.32 ? pickX : (cycle<.70 ? placeX : placeX));
+    var cubeY = holding ? ty+cube*.62 : deck+S*.012-cube*.5;
+    if(cycle>=.70) { cubeX=placeX; cubeY=deck+S*.012-cube*.5; }
+    if(cycle<.32) { cubeX=pickX; cubeY=deck+S*.012-cube*.5; }
+    ctx.save(); ctx.fillStyle=SOFT; ctx.strokeStyle=PURPLE; ctx.lineWidth=2;
+    rrect(cubeX-cube/2, cubeY-cube/2, cube, cube, 4); ctx.fill(); ctx.stroke(); ctx.restore();
+    so.push([tx,ty]); if(so.length>60) so.shift();
+    trailDraw(so,1.4,.42);
+    var wx=tx, wy=ty-l3;
+    var q=ik(wx-baseX, wy-baseY, l1, l2, -1);
+    var j1x=baseX+l1*Math.cos(q[0]), j1y=baseY+l1*Math.sin(q[0]);
+    var j2x=j1x+l2*Math.cos(q[0]+q[1]), j2y=j1y+l2*Math.sin(q[0]+q[1]);
+    shadow(baseX, baseY+S*.024, S*.07, S*.014);
+    ctx.fillStyle=SOFT; ctx.strokeStyle=PURPLE; ctx.lineWidth=2;
+    rrect(baseX-S*.05, baseY-S*.028, S*.10, S*.045, S*.012); ctx.fill(); ctx.stroke();
+    limb(baseX,baseY-S*.016, j1x,j1y, S*.026, '#fff');
+    limb(j1x,j1y, j2x,j2y, S*.022, '#fff');
+    limb(j2x,j2y, tx,ty, S*.016, SOFT);
+    // parallel gripper, opening with `grip`
+    ctx.save(); ctx.strokeStyle=PURPLE; ctx.lineWidth=2.4; ctx.lineCap='round';
+    var sp=S*.012+grip*S*.015, fl=S*.026;
+    ctx.beginPath(); ctx.moveTo(tx-sp,ty); ctx.lineTo(tx-sp,ty+fl);
+    ctx.moveTo(tx+sp,ty); ctx.lineTo(tx+sp,ty+fl); ctx.stroke(); ctx.restore();
+    joint(baseX,baseY-S*.016,S*.022);
+    joint(j1x,j1y,S*.019);
+    joint(j2x,j2y,S*.016);
+  }
+
+  /* ---------- 4. LIMO — ground robot following a path ---------- */
+  var ltrail=[];
+  function limoPath(u){
+    // a smooth closed loop the robot tracks
+    var cx=W*.5, cy=H*.52, a=S*.30, b=S*.22;
+    return { x: cx + a*Math.cos(u), y: cy + b*Math.sin(2*u)/1.25 };
+  }
+  function sceneLIMO(t){
+    grid();
+    // draw the reference path itself
+    ctx.save();
+    ctx.strokeStyle='rgba(122,86,196,.26)'; ctx.lineWidth=1.6; ctx.setLineDash([5,6]);
+    ctx.beginPath();
+    for(var u=0;u<=Math.PI*2+.05;u+=.05){
+      var q=limoPath(u);
+      if(u===0) ctx.moveTo(q.x,q.y); else ctx.lineTo(q.x,q.y);
+    }
+    ctx.stroke(); ctx.restore();
+    var u0=t*.5;
+    var p=limoPath(u0), pn=limoPath(u0+.02);
+    var head=Math.atan2(pn.y-p.y, pn.x-p.x);
+    ltrail.push([p.x,p.y]); if(ltrail.length>70) ltrail.shift();
+    trailDraw(ltrail,2,.5);
+    var L=S*.105, Wd=S*.072;
+    shadow(p.x, p.y+S*.012, L*.6, Wd*.36);
+    ctx.save(); ctx.translate(p.x,p.y); ctx.rotate(head);
+    // wheels
+    ctx.fillStyle=PURPLE;
+    var wx=L*.33, wy=Wd*.52, ww=L*.3, wh=Wd*.26;
+    [[-wx,-wy],[wx,-wy],[-wx,wy],[wx,wy]].forEach(function(w){
+      rrect(w[0]-ww/2, w[1]-wh/2, ww, wh, wh*.4); ctx.fill();
+    });
+    // chassis
+    ctx.fillStyle='#fff'; ctx.strokeStyle=PURPLE; ctx.lineWidth=2.2;
+    rrect(-L/2,-Wd/2,L,Wd,Wd*.22); ctx.fill(); ctx.stroke();
+    // lidar dome
+    ctx.fillStyle=SOFT; ctx.beginPath(); ctx.arc(-L*.1,0,Wd*.2,0,Math.PI*2); ctx.fill();
+    ctx.strokeStyle=PURPLE; ctx.lineWidth=1.6; ctx.stroke();
+    // depth camera at the front
+    ctx.fillStyle=MID; rrect(L*.3,-Wd*.16,L*.1,Wd*.32,2); ctx.fill();
+    // sweeping lidar beam
+    ctx.save();
+    ctx.globalAlpha=.3; ctx.translate(-L*.1,0); ctx.rotate(t*3.2);
+    var g2=ctx.createLinearGradient(0,0,S*.17,0);
+    g2.addColorStop(0,'rgba(122,86,196,.55)'); g2.addColorStop(1,'rgba(122,86,196,0)');
+    ctx.fillStyle=g2;
+    ctx.beginPath(); ctx.moveTo(0,0); ctx.arc(0,0,S*.17,-.26,.26); ctx.closePath(); ctx.fill();
+    ctx.restore();
+    ctx.restore();
+  }
+
+  /* ---------- scene registry + switcher ---------- */
+  var scenes=[
+    {name:'Crazyflie 2.1', desc:'Quadrotor position control', draw:sceneDrone},
+    {name:'Franka FR3',    desc:'7-DOF manipulator control',  draw:sceneFR3},
+    {name:'SO-100',        desc:'Low-cost manipulation arm',  draw:sceneSO},
+    {name:'LIMO',          desc:'Autonomous ground robot',    draw:sceneLIMO}
+  ];
+  var cur=0, fade=1, auto=true, lastSwitch=0;
+  var nameEl=document.getElementById('rName'), descEl=document.getElementById('rDesc');
+  var sw=document.getElementById('switcher');
+
+  function select(i, byUser){
+    if(i===cur) return;
+    cur=i; fade=0;
+    dtrail=[]; fr3trail=[]; so=[]; ltrail=[];
+    dx=W*.5; dy=H*.5; dvx=0; dvy=0;
+    nameEl.textContent=scenes[i].name;
+    descEl.textContent=scenes[i].desc;
+    sw.querySelectorAll('button').forEach(function(b){
+      b.setAttribute('aria-pressed', (+b.dataset.r===i) ? 'true' : 'false');
+    });
+    if(byUser) auto=false;
+  }
+  sw.addEventListener('click', function(e){
+    var b=e.target.closest('button[data-r]');
+    if(b) select(+b.dataset.r, true);
+  });
+
+  var t0=performance.now();
+  dx=W*.5; dy=H*.5;
+
+  function loop(now){
+    var t=(now-t0)/1000;
+    if(auto && now-lastSwitch>9000){ lastSwitch=now; select((cur+1)%scenes.length,false); }
+    ctx.clearRect(0,0,W,H);
+    fade=Math.min(1,fade+0.04);
+    ctx.save(); ctx.globalAlpha=fade;
+    scenes[cur].draw(t);
+    ctx.restore();
+    requestAnimationFrame(loop);
+  }
+
+  if(reduce){ ctx.clearRect(0,0,W,H); scenes[0].draw(0); }
+  else { lastSwitch=performance.now(); requestAnimationFrame(loop); }
+})();
+</script>
+</body>
+</html>
